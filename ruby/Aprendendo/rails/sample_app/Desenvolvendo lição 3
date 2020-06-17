@@ -1,0 +1,332 @@
+CRIAÇÃO DO SAMPLE APP (Essa aplicação não utiliza REST)
+
+Cria as pastas necessarias automaticamente.  
+rails _4.2.0_ new sample_app  
+
+Lista com todas as gems necessarias para aplicação. 
+source 'https://rubygems.org'
+ 
+gem 'rails', '4.2.0' 
+gem 'bcrypt', '3.1.7'  
+gem  'faker',  '1.4.2'  
+gem  'carrierwave',  '0.10.0'  
+gem  'mini_magick',  '3.8.0'  
+gem  'fog',  '1.23.0'  
+gem  'will_paginate',  '3.0.7'  
+gem  'bootstrap-will_paginate',  '0.0.10'  
+gem  'bootstrap-sass',  '3.2.0.0'  
+gem  'sass-rails',  '5.0.1'  
+gem  'uglifier',  '2.5.3'  
+gem  'coffee-rails',  '4.1.0'  
+gem  'jquery-rails',  '4.0.3'  
+gem  'turbolinks',  '2.3.0'  
+gem  'jbuilder',  '2.2.3'  
+gem  'sdoc',  '0.4.0', group: :doc 
+
+group  :development, :test do  
+gem  'sqlite3',  '1.3.9'  
+gem  'byebug',  '3.4.0'  
+gem  'web-console', '2.0.0.beta3'  
+gem  'spring',  '1.1.3' 
+end 
+
+group  :test do  
+gem  'minitest-reporters', '1.0.5'  
+gem  'mini_backtrace',  '0.1.3'  
+gem  'guard-minitest',  '2.3.1' 
+end 
+
+group  :production do  
+gem  'pg',  '0.17.1'  
+gem  'rails_12factor', '0.0.2'  
+gem  'puma',  '2.11.1' 
+end 
+
+Instalar as gems especificas da gemfile, pulando a instalação das gems de produção.
+POrque esse teste é um teste de desenvolvimento e teste.
+O comando bundle so pode ser rodado onde exista uma gemfile.
+
+
+bundle install --without production
+
+!! Quando uma versão der problema va ao site:
+https://rubygems.org/gems/
+E verifique se a versão foi removida. Se foi removida, então use a subsequente.
+
+Agora atualizamos a lista.
+bundle update
+
+Tudo ok? commit para o git.
+é aconselhavel utilizar os branches para poder trabalhar com calma e não intervir no projeto principal.
+quanto tudo tiver pronto, e funcionando, unimos os branches.
+
+USANDO O GENERATE.
+
+O comando generate vai criar automaticamente componetes do MVC conforme a sua solicitação
+MODEL view CONTROLER
+
+=========================================================
+OUTRA tecnica para models envolvendo migração é 
+
+ bundle exec rake db:migrate
+
+para desfazer 
+
+ bundle exec rake db:rollback
+
+para voltar ao inicio
+
+ bundle exec rake db:migrate VERSION=0
+=======================================================
+
+Para gerar o controlador, sim aquele do MVC,  
+
+rails generate controller StaticPages home help
+
+Esse comando vai gerar ações para as paginas home e help.
+
+Caso queira retornar a situação anterior. Desfazendo a criação do controler. utilize o destroy
+
+rails destroy controller StaticPages home help
+
+Criou, no arquivo config/routes.rb rotas para novas paginas.
+
+config/routes.rb
+==
+Rails.application.routes.draw
+    get 'static_pages/home'
+    get 'static_pages/help'
+.
+.
+.
+end
+==
+
+Para entender de onde essa pagina veio, começamos com o StaticPages controller.
+
+app/controllers/static_pages_controller.rb
+==
+class StaticPagesController < ApplicationController
+   def home
+    end
+
+    def help
+    end
+end
+==
+
+Esse metodos/funções iniciam sem fazer nada.
+
+Quando visitamos a URL /static_pages/home o rails procura no controller Static pages e executa o codigo 
+na ação home, e depois reinderiza a view correspondente a ação.
+
+app/views/static_pages/home.html.erb
+==
+<h1>StaticPages#home</h1>
+<p>Find me in app/views/static_pages/home.html.erb</p>
+==
+--------------------------------------------------------------------------------
+                        CUSTOMIZAÇÃO DE PAGINAS
+                        -----------------------
+
+Visualizações de rails pode contar simplesmente HTML basico.
+
+--------------------------------------------------------------------------------
+                        TESTANDO A APLICAÇÃO
+                        --------------------
+
+Requer extenso conhecimento de rails e Ruby. Entretanto o Rails ja fez a parte mais dificil.
+Quando se utilizou o comando 'raisl generate controller' os testes foram criados atutomaticamente.
+
+test/controllers/static_pages_controller_test.rb
+==
+require 'test_helper'
+class StaticPagesControllerTest < ActionController::TestCase
+    test "should get home" do
+        get :home
+        assert_response :success
+        end
+
+    test "should get help" do
+        get :help
+        assert_response :success
+    end
+end
+
+Esse teste utiliza duas ações, os dois testes, que testam a pagina home e help dando um GET.
+Para rodar esse teste utiliza-se o comando.
+bundle exec rake test
+
+Caso seja bem sucedido e retorme o codigo html 200 sera bem sucedido.
+2 runs, 2 assertions, 0 failures, 0 errors, 0 skip
+
+O inicio do teste podera demorar por dois motivos: 1)Inicialização do servidor spring que precarrega
+partes do ambinte Rails que acontece somente no primeiro teste. 2) Overhead associado ao tempo de inicialização do Ruby
+O retono sera de coloração verde indicando que esta tudo em ordem.
+Para simular um erro. Criamos um teste para uma pagina que não existe.
+
+Adionado no arquivo anterior.
+== 
+  test "should get about" do
+    get: :about
+    assert_response :success
+  end
+
+bundle exec rake test
+
+Retorna vermelho
+3 runs, 2 assertions, 0 failures, 1 errors, 0 skips
+
+3 Testes foram rodados, dois deram certo e um errado. Como já era de se esperar.
+
+1) Error:
+ StaticPagesControllerTest#test_should_get_about: 
+ ActionController::UrlGenerationError: No route matches {:action=>"about", :controller=>"static_pages"}
+
+Adiocionaremos uma rota no arquivo route.br
+ ==
+ get 'static_pages/about'
+ 
+Ao rodar o teste temos: 
+  1) Error:
+  StaticPagesControllerTest#test_should_get_about:
+  AbstractController::ActionNotFound: The action 'about' could not be found for StaticPagesController
+
+3 runs, 2 assertions, 0 failures, 1 errors, 0 skips
+
+Adionamos uma action 
+app/controllers/static_pages_controller.rb
+==
+ def about
+ 
+ end
+
+Testamos de novo
+ 1) Error:
+ StaticPagesControllerTest#test_should_get_about:
+ ActionView::MissingTemplate: Missing template static_pages/about
+
+Falta o context, que no rails é essencialmente a mesca coisa que um view. Então temos que criar uma pagina com 
+o conteudo html para about.
+
+Realizando o teste novamente.
+O resultado foi verde. Informando que naõ há erros.
+3 runs, 3 assertions, 0 failures, 0 errors, 0 skips
+
+------------------------------------------------------------------------------
+                    PAGINAS LEVEMENTE DINAMICAS.
+                    ---------------------------
+                    
+                    
+A ideia principal é adicionar teste simples para os titulos das paginas, depis adiconar titulos em cas uma das paginas e finalmente usar um arquivo de layout para eleimar a duplicação. por fim todas a paginas estaticas iraml ter titulos dinamicos.
+
+Page
+ URL
+ Base title
+ Variable title
+Home
+ /static_pages/home
+ "Ruby on Rails Tutorial Sample App"
+ "Home"
+Help
+ /static_pages/help
+ "Ruby on Rails Tutorial Sample App"
+ "Help"
+About
+ /static_pages/about
+ "Ruby on Rails Tutorial Sample App"
+ "About"
+
+Que ao final fiquem com essas caracteristicas.
+
+Criar o teste para essa funcionalidade.
+Em cada teste adiocionar um assert que verificará o titulo.
+ assert_select "title", "Home | Ruby on Rails Tutorial Sample App"
+
+Ele vai em <title></title> e verifica o que tem nessa tag.
+
+Rodando o teste agora ele retornará erro, porque o title não esta configurado.
+  
+Failure: Expected at least 1 element matching "title", found 0..
+
+Com a configuração da pagina html e a colocação do elemento <title> os teste ficaram verdes.
+
+REFATORANDO.
+Agora vamos melhorar o codigo.
+!!ERb --> embedded Ruby 
+
+app/views/static_pages/home.html.erb
+==
+  <% provide(:title, "The Title") %>
+<!DOCTYPE html>
+<html >
+  <head>
+    <title> <%= yield(:title) %> | Ruby on Rails Tutorial Sample App</title>
+  </head>
+  <body>
+    <h1> Sample App </h1>
+<p>Esta é uma pagina para
+    <a href="http://www.railstutorial.org/">Ruby on Rails Tutorial</a>
+sample application.
+</p>
+  </body>
+</html
+  
+INserido ruby no codigo html. Assim deixamos a pagina levemente dinamica.
+O Rails possue uma estrutura comum para layouts html
+
+ app/views/layouts/application.html.erb
+
+Agora vamos devolve-la e ver como se comporta.
+Essa pagina ira gerar os esquema html comum sendo mudado apenas o yield. Essa função lerá as tags nas demais paginas e trara de volta os seus respectivos valores.
+
+---------------------------------------------------------------------------------------------------
+                    Configurando a rota raiz.
+                    -------------------------
+
+Para escolha da pagina principal devemos configurar o route.rb
+==
+  Rails.application.routes.draw do
+  root 'static_pages#home'
+  get 'static_pages/help' 
+  get 'static_pages/about' 
+  end
+
+
+
+
+
+
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
