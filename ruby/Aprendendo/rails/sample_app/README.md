@@ -6,8 +6,9 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
-
+2.1
 * System dependencies
+lista de gem atualizada.
 
 * Configuration
 
