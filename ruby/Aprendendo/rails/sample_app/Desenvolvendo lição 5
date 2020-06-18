@@ -1,0 +1,101 @@
+---------------------------------------------------------------------------------------------------------------------
+                            FILLING IN THE LAYOUT
+                            ---------------------
+Até agora as paginas criadas não tinha nada de css. Vamos introduzir alguma estrutura nas paginas.
+
+   ADICIONANDO ALGUMA ESTRUTURA
+   ----------------------------
+
+O primeiro passo é adicionar links e styles  para a aplicação.   
+Apos aplicar algumas estrutura de html o arquivo ficara assim.
+app/views/layouts/application.html.erb
+== 
+ <!DOCTYPE html>
+<html>
+<head>
+  <title><%= full_title(yield(:title))%></title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
+</script>
+<![endif]-->
+</head>
+<body>
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <%= link_to "sample app", '#', id: "logo" %>
+    <nav>
+      <ul class = "nav navbar-nav navbar-right">
+        <li><%=link_to "Home", '#' %>  </li>
+        <li><%=link_to "Help", '#' %>  </li>
+        <li><%=link_to "Log in", '#' %>  </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </body>
+</html>
+
+!! Todos os elementos HTML podem ser atribuidos a ambas classes e ids:
+A diferença é que classes podem ser utilizadas varias vezes em uma pagina. Enquanto ids podem ser usados em apenas uma.
+Em HTML5 HEADER, NAV E SECTION  são elementos utuilizados para divisão comum para muitas aplicações.
+A tag head tem um significado importante para bootstrap.
+
+ps; o icone não é baixado via curl. Ele está indisponivel.
+
+---------------------------------------------------------------------------------------------------
+                    DESCREVENDO O bootstrap e customizando CSS.
+                    ---------------------------------------------
+
+O bootsrap é um framework do twitter que tonar facil e bonito o webdesign e elementos de interface com o usuario, mostrando um design responsivo para uma grande gama de dispositivos.
+O Rails gera automaticamente o arquivo css.scss   
+Apos resetar seu servidor rails o resultado aparecerá.    
+==
+body {
+    padding-top: 60px;
+    }
+Insere o body a 60 px do topo da pagina.
+
+Rever de tarde! a configuração de todo modelo de css.
+
+---------------------------------------------------------------------------------------------------
+                       SASS E PIPELINE DE ATIVOS  -Estudar SaSS poderosa ferramenta para escrever CSS.
+                       --------------------------
+
+
+Uma das mais notaveis adições e versoes recentes do rails é ativo pipeline.
+Importantes caracteriscitas para um desenvolvedor rails.
+
+Asset directories
+Manifest files
+Preprocessor engines
+
+=======DIRETORIOS DE ATIVOS.
+a VERSÃO     4.2 rails possue treis diretorios aprovados para ativos staticos, cada um deles com um proposito.
+app/assets:     Ativo especifico para aplicação atual
+lib/assets:     Ativo para biblioteca escrita pelo time de desenvolvimento.
+vendor/assets:  Ativo de fornecedores terceirizados.
+
+=========== ARQUIVOS DE MANIFETSTOS
+Uma vez que seus ativos foram colocados em seus locais logicos, pode-se utilizar o manifest para falar para o Rails como combina-los para formar um unico arquivo.
+
+
+
+
+
+
+
+
+
+
+                                 
+                    
+
+
+ 
+                            

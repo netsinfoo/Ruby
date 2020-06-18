@@ -7,6 +7,8 @@ Things you may want to cover:
 
 * Ruby version
 2.1
+* Rails verions
+4.2
 * System dependencies
 lista de gem atualizada.
 
