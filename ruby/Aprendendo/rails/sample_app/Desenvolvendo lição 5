@@ -50,6 +50,7 @@ ps; o icone não é baixado via curl. Ele está indisponivel.
 
 ---------------------------------------------------------------------------------------------------
                     DESCREVENDO O bootstrap e customizando CSS.
+                    ver elementos do css.
                     ---------------------------------------------
 
 O bootsrap é um framework do twitter que tonar facil e bonito o webdesign e elementos de interface com o usuario, mostrando um design responsivo para uma grande gama de dispositivos.
@@ -62,6 +63,11 @@ body {
 Insere o body a 60 px do topo da pagina.
 
 Rever de tarde! a configuração de todo modelo de css.
+
+
+Embora o bootstrap já traga um bom visual grafico podemos fazer com que ele fique mais simpatico.
+no arquivo css podemos editar os items da nossa pagina html.
+
 
 ---------------------------------------------------------------------------------------------------
                        SASS E PIPELINE DE ATIVOS  -Estudar SaSS poderosa ferramenta para escrever CSS.
