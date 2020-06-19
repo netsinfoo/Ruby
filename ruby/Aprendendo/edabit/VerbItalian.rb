@@ -5,18 +5,19 @@ root = verb[0..-4]
 conj={"Io"=>"o", "Tu"=>"i", "Egli"=>"a", "Noi"=>"iamo", "Voi"=>"ate", "Essi"=>"ano"}
 pronoune = conj.keys[pronoun - 1]
 if root[-1] == "c" || root[-1] == "g"
-	ans = pronoune +" "+ root+"h"+conj[pronoune]
+	pronoune +" "+ root+"h"+conj[pronoune]
 	elsif root[-1] == "i"
 	if pronoune == "Tu" || pronoune == "Noi"
-	ans = pronoune +" "+ verb[0..-5]+conj[pronoune]
+	pronoune +" "+ verb[0..-5]+conj[pronoune]
 	else
-	ans = pronoune +" "+ root +conj[pronoune]
+	pronoune +" "+ root +conj[pronoune]
 	end
 else
-	ans = pronoune +" "+ root +conj[pronoune]
+	pronoune +" "+ root +conj[pronoune]
 end
  
-return ans
+return 
+
 end
 
 Test.assert_equal(conjugate("edabittare", 4), "Noi edabittiamo", "We edabit")

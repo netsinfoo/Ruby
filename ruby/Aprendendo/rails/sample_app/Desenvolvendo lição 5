@@ -75,23 +75,43 @@ no arquivo css podemos editar os items da nossa pagina html.
 
 
 Uma das mais notaveis adições e versoes recentes do rails é ativo pipeline.
-Importantes caracteriscitas para um desenvolvedor rails.
+Importantes caracteriscitas para o entendimento de um desenvolvedor rails.
 
-Asset directories
-Manifest files
-Preprocessor engines
+ASSET DIRECTORIES
+            Diretorios onde os arquivos de configuração são guardados.
+MANIFEST FILES
+
+PREPROCESSOR ENGINES
 
 =======DIRETORIOS DE ATIVOS.
 a VERSÃO     4.2 rails possue treis diretorios aprovados para ativos staticos, cada um deles com um proposito.
-app/assets:     Ativo especifico para aplicação atual
+
+app/assets:     Ativo especifico para aplicação atual. Ex o custom.css.scss é especifico para a configuração do exemplo
+                por isso é armazenda nessa pasta.
 lib/assets:     Ativo para biblioteca escrita pelo time de desenvolvimento.
 vendor/assets:  Ativo de fornecedores terceirizados.
 
 =========== ARQUIVOS DE MANIFETSTOS
-Uma vez que seus ativos foram colocados em seus locais logicos, pode-se utilizar o manifest para falar para o Rails como combina-los para formar um unico arquivo.
+Uma vez que seus ativos foram colocados em seus locais logicos, pode-se utilizar o manifest para falar para o Rails como combina-los para formar um unico arquivo.É aplicada a css e javascript e não a imagem.
 
+app/assets/stylesheets/application.css
+==
+  *
+  *= require_tree .
+  *= require_self
+  */
 
+Qual quer css ou scss dentro:
+    desse diretorio, 
+    lib/assets/stylesheets,
+    vendor/assets/stylesheets, 
+    vendor/assets/stylesheets 
 
+Poderá ser referenciado usando um caminho relativo.
+
+PREPROCESS ENGINE
+
+O rails compila as informaçoes contidas no manifest e nos assest e cria um arquivo combinado a ser entregue para o brouser. Removendo o que é desnecessario.
 
 
 
